@@ -1,0 +1,98 @@
+
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix o: <http://omeka.org/s/vocabs/o#> .
+@prefix artinq: <https://humanum-p8.fr/omk_artificialinquiries/onto/artinq#> .
+
+<https://humanum-p8.fr/omk_artificialinquiries/onto/artinq#>
+    a owl:Ontology ;
+    dcterms:title "Artificial Inquiries" .
+
+# CLASSES
+
+artinq:Exercice6c a rdfs:Class ;
+    rdfs:label "Exercice 6.c" ;
+    rdfs:domain o:Resource ;
+    vs:term_status "experimental" .
+
+artinq:Tache a rdfs:Class ;
+    rdfs:label "Tâche professionnelle" ;
+    rdfs:domain o:Resource ;
+    vs:term_status "experimental" .
+
+artinq:Attentes a rdfs:Class ;
+    rdfs:label "Attentes" ;
+    rdfs:domain o:Resource ;
+    vs:term_status "experimental" .
+
+artinq:Evaluation a rdfs:Class ;
+    rdfs:label "Évaluation" ;
+    rdfs:domain o:Resource ;
+    vs:term_status "experimental" .
+
+# PROPRIETES DE L'EXERCICE
+
+artinq:titre a rdf:Property ;
+    rdfs:label "Titre" ;
+    rdfs:domain o:Resource .
+
+artinq:description a rdf:Property ;
+    rdfs:label "Description" ;
+    rdfs:domain o:Resource .
+
+artinq:hasTache a rdf:Property ;
+    rdfs:label "A comme tâche" ;
+    rdfs:domain o:Resource .
+
+# PROPRIETES DE LA TACHE
+
+artinq:taskId a rdf:Property ;
+    rdfs:label "Identifiant de la tâche" ;
+    rdfs:domain o:Resource .
+
+artinq:taskFit a rdf:Property ;
+    rdfs:label "Adéquation de la tâche" ;
+    rdfs:domain o:Resource .
+
+artinq:professionalRelevance a rdf:Property ;
+    rdfs:label "Pertinence professionnelle" ;
+    rdfs:domain o:Resource .
+
+artinq:personalOutcome a rdf:Property ;
+    rdfs:label "Résultat personnel" ;
+    rdfs:domain o:Resource .
+
+artinq:hasAttentes a rdf:Property ;
+    rdfs:label "A comme attentes" ;
+    rdfs:domain o:Resource .
+
+artinq:hasEvaluation a rdf:Property ;
+    rdfs:label "A comme évaluation" ;
+    rdfs:domain o:Resource .
+
+# PROPRIETES DES ATTENTES
+
+artinq:expectedPerformance a rdf:Property ;
+    rdfs:label "Performance attendue" ;
+    rdfs:domain o:Resource .
+
+artinq:confidence a rdf:Property ;
+    rdfs:label "Niveau de confiance" ;
+    rdfs:domain o:Resource .
+
+# PROPRIETES DE L'EVALUATION
+
+artinq:goodEnough a rdf:Property ;
+    rdfs:label "Suffisamment bon" ;
+    rdfs:domain o:Resource .
+
+artinq:failure a rdf:Property ;
+    rdfs:label "Échec" ;
+    rdfs:domain o:Resource .
+
+artinq:success a rdf:Property ;
+    rdfs:label "Réussite" ;
+    rdfs:domain o:Resource .
