@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Grille de réflexion sur les attentes et les critères d’évaluation de quatre tâches professionnelles — exercice 6.c.">
+  <title>Artificial Inquiries — What's on the Line?</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20253e;
+      --muted: #646b82;
+      --line: #e7e8f1;
+      --accent: #5950c7;
+      --night: #191e36;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f5f5fb; color: var(--ink); font: 15px/1.6 "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    button, input, textarea { font: inherit; }
+    button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
+    .icon { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .sidebar { position: fixed; inset: 0 auto 0 0; z-index: 5; display: flex; flex-direction: column; width: 248px; padding: 34px 20px 24px; background: linear-gradient(160deg, #20253f, #151a30); color: #fff; }
+    .brand { display: flex; align-items: center; gap: 12px; padding: 0 10px; font-size: 15px; font-weight: 650; line-height: 1.4; letter-spacing: -.3px; }
+    .brand-mark { display: grid; place-items: center; width: 38px; height: 42px; border: 1px solid #7a74b3; border-radius: 11px; background: #7870cc22; color: #d3cbff; }
+    .brand small { display: block; margin-top: 3px; color: #aeb5cd; font-size: 11px; font-weight: 400; letter-spacing: .04em; }
+    .nav-label { margin: 50px 14px 14px; color: #a6aec7; font-size: 10px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
+    nav { display: grid; gap: 8px; }
+    nav a { display: flex; align-items: center; gap: 13px; min-height: 58px; padding: 11px 14px; border: 1px solid transparent; border-radius: 11px; color: #bec5da; text-decoration: none; font-size: 13px; font-weight: 550; transition: background .16s, color .16s; }
+    .nav-number { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #59617e; border-radius: 9px; color: #b9c0d8; font-size: 11px; font-variant-numeric: tabular-nums; }
+    nav a:hover { background: #ffffff08; color: #fff; }
+    nav a[aria-current="page"] { border-color: #8176d84d; background: #7362cf26; color: #fff; }
+    nav a[aria-current="page"] .nav-number { background: #8273df; border-color: #8273df; color: #fff; }
+    nav a[aria-current="page"]::after { content: ""; width: 5px; height: 5px; margin-left: auto; border-radius: 50%; background: #c1b6ff; }
+    .sidebar-note { display: flex; gap: 10px; margin-top: auto; padding: 18px 10px 0; border-top: 1px solid #ffffff16; color: #aeb7d0; font-size: 11px; line-height: 1.7; }
+    .sidebar-note .icon { width: 17px; height: 17px; margin-top: 2px; color: #b7a9ff; }
+    .app { margin-left: 248px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 84px; padding: 20px 44px; border-bottom: 1px solid var(--line); background: #ffffffb3; }
+    .breadcrumb { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; }
+    .breadcrumb .icon { width: 16px; height: 16px; color: #9195aa; }
+    .breadcrumb strong { color: var(--ink); font-weight: 600; }
+    .content { max-width: 1280px; margin: auto; padding: 36px 44px 22px; }
+    .page-heading { margin-bottom: 24px; }
+    .eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; color: var(--accent); font-size: 10px; letter-spacing: .12em; font-weight: 650; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 18px; height: 2px; background: #8174d6; }
+    h1 { margin: 0; font-size: clamp(27px, 3vw, 37px); line-height: 1.25; font-weight: 650; letter-spacing: -1.2px; }
+    .intro { max-width: 680px; margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.85; }
+    button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 10px 16px; border: 1px solid var(--accent); border-radius: 9px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; transition: background .16s, border-color .16s, box-shadow .16s, transform .16s; }
+    button .icon { width: 16px; height: 16px; }
+    button:not(:disabled):hover { background: #4840ae; box-shadow: 0 3px 8px #5950c71a; }
+    button:not(:disabled):active { transform: translateY(1px); }
+    button:disabled { border-color: #e4e5ee; background: #f4f4f8; color: #7b7e92; cursor: default; box-shadow: none; }
+    .secondary, #export { background: #fff; border-color: #dcddea; color: #4c506b; }
+    .secondary:not(:disabled):hover, #export:hover { background: #f5f3fc; border-color: #c4bcdf; }
+    #export { flex-shrink: 0; }
+    .danger { background: #fff; border-color: #eddce3; color: #a04b64; }
+    .danger:not(:disabled):hover { background: #fff3f6; border-color: #d8a3b3; }
+    #status { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; margin: 0 0 22px; border: 1px solid #e0ddef; border-radius: 10px; background: #eeedf8; color: #514a7e; font-size: 12px; overflow-wrap: anywhere; }
+    #status .icon { width: 17px; height: 17px; margin-top: 2px; }
+    #status:empty { display: none; }
+    #status[data-kind="success"] { border-color: #d6e6e0; background: #eef7f3; color: #326457; }
+    #status[data-kind="error"] { border-color: #edd5df; background: #fff1f5; color: #923c58; }
+    section { scroll-margin-top: 24px; }
+    section[hidden] { display: none; }
+    .task-header { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 22px; padding: 16px 0; background: #f5f5fbf5; backdrop-filter: blur(12px); border-bottom: 1px solid #e3e3ef; }
+    .task-title { display: flex; align-items: center; gap: 12px; }
+    .task-symbol { display: grid; place-items: center; width: 42px; height: 42px; background: #eae7f9; border: 1px solid #dfdaf3; border-radius: 12px; color: var(--accent); }
+    h2 { margin: 0; font-size: 18px; line-height: 1.4; font-weight: 650; letter-spacing: -.4px; }
+    .task-caption { margin: 2px 0 0; color: var(--muted); font-size: 11px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    fieldset { min-width: 0; margin: 0 0 22px; padding: 0 26px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: 0 3px 6px #26204402, 0 12px 28px #26204403; }
+    legend { float: left; display: flex; align-items: center; gap: 12px; width: 100%; padding: 23px 0 19px; margin-bottom: 22px; border-bottom: 1px solid #eff0f6; color: var(--ink); font-size: 13px; font-weight: 650; }
+    .section-icon { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid #ece8fa; border-radius: 9px; background: #f6f3ff; color: #7665b5; }
+    .section-icon .icon { width: 17px; height: 17px; }
+    .section-index { margin-left: auto; color: #74778e; font-size: 10px; font-weight: 500; letter-spacing: .06em; }
+    .fields { clear: both; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+    .field { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+    .wide { grid-column: 1 / -1; }
+    label { font-size: 12px; font-weight: 600; }
+    label small { display: block; margin-top: 2px; color: #73788f; font-size: 10px; font-weight: 400; }
+    input, textarea { width: 100%; padding: 11px 13px; border: 1px solid #dfe1ed; border-radius: 9px; background: #fcfcff; color: var(--ink); font-size: 14px; line-height: 1.65; transition: border-color .16s, box-shadow .16s; }
+    input { min-height: 46px; }
+    textarea { min-height: 106px; resize: vertical; }
+    input:hover, textarea:hover { border-color: #b5acd5; }
+    input:focus, textarea:focus { border-color: #8575d0; box-shadow: 0 0 0 3px #8575d012; background: #fff; }
+    input:read-only, textarea:read-only { background: #f5f6fa; border-color: #e5e6ef; color: #535b72; }
+    :focus-visible { outline: 3px solid #9f8ee0; outline-offset: 3px; }
+    footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0 18px; color: #71778b; font-size: 10px; }
+    footer span:last-child { color: #6a608e; }
+    @media (min-width: 1500px) { .content { padding-top: 46px; } }
+    @media (max-width: 1100px) {
+      .sidebar { width: 216px; padding-inline: 14px; }
+      .app { margin-left: 216px; }
+      .content { padding-inline: 26px; }
+      .topbar { padding-inline: 26px; }
+      .task-header { flex-wrap: wrap; }
+    }
+    @media (max-width: 760px) {
+      .sidebar { position: static; width: auto; padding: 20px; }
+      .brand { padding: 0; }
+      .brand small { display: inline; margin-left: 8px; }
+      .nav-label, .sidebar-note { display: none; }
+      nav { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 20px; }
+      nav a { justify-content: center; min-height: 46px; padding: 8px 2px; font-size: 12px; }
+      .nav-number, nav a[aria-current="page"]::after { display: none; }
+      .app { margin: 0; }
+      .topbar { min-height: 68px; padding: 12px 20px; }
+      .breadcrumb { font-size: 11px; gap: 7px; }
+      .breadcrumb > .icon, .breadcrumb > span { display: none; }
+      #export { min-height: 44px; padding: 9px 11px; font-size: 11px; }
+      .content { padding: 26px 20px 16px; }
+      .intro { font-size: 12px; }
+      .task-header { gap: 16px; padding: 12px 0; }
+      .actions { width: 100%; }
+      .actions button { flex: 1; min-height: 44px; padding-inline: 8px; font-size: 11px; }
+      fieldset { padding: 0 18px 20px; border-radius: 14px; }
+      legend { padding-top: 18px; margin-bottom: 18px; }
+      .fields { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+      input, textarea { font-size: 16px; }
+      textarea { min-height: 112px; }
+      footer { align-items: flex-start; flex-direction: column; gap: 2px; }
+    }
+    @media (max-width: 370px) {
+      .content, .topbar { padding-inline: 14px; }
+      .sidebar { padding-inline: 14px; }
+      .actions button { gap: 5px; }
+      .actions .icon { width: 14px; height: 14px; }
+      .section-index { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+    @media print {
+      body { background: #fff; }
+      .sidebar, .topbar, .actions, #status, footer { display: none; }
+      .app { margin: 0; }
+      .content { max-width: none; padding: 0; }
+      section, section[hidden] { display: block; break-before: page; }
+      .task-header { position: static; background: #fff; backdrop-filter: none; }
+      fieldset { box-shadow: none; break-inside: avoid; }
+      textarea { min-height: 130px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Symboles partagés : aucune bibliothèque d’icônes ni ressource externe. -->
+  <svg class="icon-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M12 5v15M12 5C9 3 5 3 3 4v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-2-1-6-1-9 1Z"/></symbol>
+    <symbol id="icon-task" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 10h6M9 14h6M9 18h3"/></symbol>
+    <symbol id="icon-context" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12c5 3 13 3 18 0M10 13h4"/></symbol>
+    <symbol id="icon-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="icon-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12l4 4v12a2 2 0 0 1-2 2ZM7 3v6h9V3M7 21v-8h10v8"/></symbol>
+    <symbol id="icon-edit" viewBox="0 0 24 24"><path d="m16 3 5 5M4 20l5-1L21 7a2 2 0 0 0-5-5L4 14l-1 7ZM12 21h9"/></symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  </svg>
+  <aside class="sidebar" aria-label="Navigation de l’exercice">
+    <div class="brand">
+      <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#icon-book"/></svg></span>
+      <div>Artificial Inquiries<small>Exercice universitaire · 6.c</small></div>
+    </div>
+    <p class="nav-label">Tâches professionnelles</p>
+    <nav aria-label="Accès aux tâches">
+      <a href="#task-1"><span class="nav-number" aria-hidden="true">01</span>Tâche 1</a>
+      <a href="#task-2"><span class="nav-number" aria-hidden="true">02</span>Tâche 2</a>
+      <a href="#task-3"><span class="nav-number" aria-hidden="true">03</span>Tâche 3</a>
+      <a href="#task-4"><span class="nav-number" aria-hidden="true">04</span>Tâche 4</a>
+    </nav>
+  </aside>
+  <div class="app">
+    <header class="topbar">
+      <div class="breadcrumb"><svg class="icon" aria-hidden="true"><use href="#icon-book"/></svg><span>Artificial Inquiries</span><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg><strong>Exercice 6.c</strong></div>
+      <button type="button" id="export"><svg class="icon" aria-hidden="true"><use href="#icon-download"/></svg>Exporter les réponses (.json)</button>
+    </header>
+    <main class="content">
+      <div class="page-heading">
+        <p class="eyebrow">Attentes &amp; critères d’évaluation</p>
+        <h1>What's on the Line?</h1>
+        <p class="intro">Pour chacune des quatre tâches professionnelles, précisez les enjeux, les attentes et les critères d’évaluation avant de tester le modèle de langage.</p>
+      </div>
+      <div id="status" role="status" aria-live="polite" aria-atomic="true"></div>
+      <noscript><p>Activez JavaScript pour afficher la grille et retrouver vos réponses.</p></noscript>
+      <form id="tasks" aria-label="Grille d’analyse des quatre tâches"></form>
+      <footer><span>Artificial Inquiries — Exercice 6.c</span><span>Réflexion préalable au test</span></footer>
+    </main>
+  </div>
+  <script>
+    // Les clés correspondent aux propriétés décrites dans artificial_inquiries.ttl.
+    const groups = [
+      { title: 'Contexte professionnel', fields: [
+        ['taskId', 'Identifiant de la tâche', 'Task ID', 'input'],
+        ['taskFit', 'Adéquation de la tâche', 'Task Fit'],
+        ['professionalRelevance', 'Pertinence professionnelle', 'Professional Relevance'],
+        ['personalOutcome', 'Résultat personnel recherché', 'Personal Outcome']
+      ] },
+      { title: 'Attentes', fields: [
+        ['expectedPerformance', 'Performance attendue', 'Expected Performance'],
+        ['confidence', 'Niveau de confiance', 'Confidence']
+      ] },
+      { title: 'Critères d’évaluation', fields: [
+        ['goodEnough', 'Résultat acceptable', 'Good Enough'],
+        ['failure', 'Échec', 'Failure'],
+        ['success', 'Réussite idéale', 'Success']
+      ] }
+    ];
+    const form = document.querySelector('#tasks');
+    const status = document.querySelector('#status');
+    const storageKey = 'artificial-inquiries-6c-responses-v1';
+    const keys = groups.flatMap(group => group.fields.map(([key]) => key));
+    const views = [];
+    let records = Array(4).fill(null);
+
+    function createIcon(name) {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'icon');
+      svg.setAttribute('aria-hidden', 'true');
+      const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      use.setAttribute('href', `#icon-${name}`);
+      svg.append(use);
+      return svg;
+    }
+
+    function notify(message, kind = 'success') {
+      status.dataset.kind = kind;
+      const text = document.createElement('span');
+      text.textContent = message;
+      status.replaceChildren(createIcon(kind === 'success' ? 'check' : 'info'), text);
+    }
+
+    // Seules les neuf propriétés textuelles attendues sont acceptées au chargement.
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored !== null) {
+        const parsed = JSON.parse(stored);
+        if (parsed.version !== 1 || !Array.isArray(parsed.tasks) || parsed.tasks.length !== 4 ||
+            !parsed.tasks.every(record => record === null || (
+              record && typeof record.editing === 'boolean' && record.values &&
+              keys.every(key => typeof record.values[key] === 'string')
+            ))) {
+          throw new Error('Format de sauvegarde invalide');
+        }
+        records = parsed.tasks.map(record => record === null ? null : {
+          editing: record.editing,
+          values: Object.fromEntries(keys.map(key => [key, record.values[key]]))
+        });
+        notify('Réponses enregistrées chargées. Vous pouvez consulter ou modifier chaque tâche.');
+      }
+    } catch {
+      notify('Impossible de charger les réponses locales. Vous pouvez saisir vos réponses et les exporter.', 'error');
+    }
+
+    function readTask(index) {
+      return Object.fromEntries(keys.map(key => [key,
+        form.elements.namedItem(`task-${index + 1}-${key}`).value
+      ]));
+    }
+
+    function persist(message) {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify({ version: 1, tasks: records }));
+        notify(message);
+      } catch {
+        notify('Sauvegarde locale impossible. Les réponses restent dans cette page : exportez-les avant de la fermer.', 'error');
+      }
+    }
+
+    function renderTask(index) {
+      const record = records[index];
+      const reading = record !== null && !record.editing;
+      for (const key of keys) {
+        const control = form.elements.namedItem(`task-${index + 1}-${key}`);
+        control.value = record ? record.values[key] : '';
+        control.readOnly = reading;
+      }
+      views[index].save.disabled = reading;
+      views[index].edit.disabled = !reading;
+      views[index].remove.disabled = record === null;
+    }
+
+    // Une structure commune évite de dupliquer le balisage des quatre tâches.
+    for (let number = 1; number <= 4; number++) {
+      const section = document.createElement('section');
+      section.id = `task-${number}`;
+      section.setAttribute('aria-labelledby', `heading-${number}`);
+      const heading = document.createElement('h2');
+      heading.id = `heading-${number}`;
+      heading.textContent = `Tâche ${number}`;
+      const taskHeader = document.createElement('div');
+      taskHeader.className = 'task-header';
+      const taskTitle = document.createElement('div');
+      taskTitle.className = 'task-title';
+      const symbol = document.createElement('span');
+      symbol.className = 'task-symbol';
+      symbol.append(createIcon('task'));
+      const titleText = document.createElement('div');
+      const caption = document.createElement('p');
+      caption.className = 'task-caption';
+      caption.textContent = 'Analyse d’une tâche professionnelle';
+      titleText.append(heading, caption);
+      taskTitle.append(symbol, titleText);
+      taskHeader.append(taskTitle);
+      section.append(taskHeader);
+
+      for (const [groupIndex, group] of groups.entries()) {
+        const fieldset = document.createElement('fieldset');
+        const legend = document.createElement('legend');
+        const groupIcon = document.createElement('span');
+        groupIcon.className = 'section-icon';
+        groupIcon.append(createIcon(['context', 'target', 'check'][groupIndex]));
+        const groupTitle = document.createElement('span');
+        groupTitle.textContent = group.title;
+        const groupNumber = document.createElement('span');
+        groupNumber.className = 'section-index';
+        groupNumber.setAttribute('aria-hidden', 'true');
+        groupNumber.textContent = `0${groupIndex + 1}`;
+        legend.append(groupIcon, groupTitle, groupNumber);
+        const fields = document.createElement('div');
+        fields.className = 'fields';
+
+        for (const [key, title, original, type] of group.fields) {
+          const wrapper = document.createElement('div');
+          wrapper.className = `field${key === 'success' ? ' wide' : ''}`;
+          const control = document.createElement(type === 'input' ? 'input' : 'textarea');
+          control.id = `task-${number}-${key}`;
+          control.name = control.id;
+          if (type === 'input') control.type = 'text';
+          const label = document.createElement('label');
+          label.htmlFor = control.id;
+          label.append(`${title} `);
+          const reference = document.createElement('small');
+          reference.textContent = `(${original})`;
+          label.append(reference);
+          wrapper.append(label, control);
+          fields.append(wrapper);
+        }
+        fieldset.append(legend, fields);
+        section.append(fieldset);
+      }
+      const index = number - 1;
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const buttons = {};
+      for (const [action, title] of [['save', 'Enregistrer'], ['edit', 'Modifier'], ['remove', 'Supprimer']]) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        const buttonText = document.createElement('span');
+        buttonText.textContent = title;
+        button.append(createIcon({ save: 'save', edit: 'edit', remove: 'trash' }[action]), buttonText);
+        button.id = `task-${number}-${action}`;
+        button.setAttribute('aria-label', `${title} les réponses de la tâche ${number}`);
+        if (action !== 'save') button.className = action === 'remove' ? 'danger' : 'secondary';
+        buttons[action] = button;
+        actions.append(button);
+      }
+      views.push(buttons);
+      taskHeader.append(actions);
+      form.append(section);
+      renderTask(index);
+
+      section.addEventListener('input', event => {
+        if (!['INPUT', 'TEXTAREA'].includes(event.target.tagName)) return;
+        if (records[index] && !records[index].editing) return;
+        records[index] = { values: readTask(index), editing: true };
+        buttons.remove.disabled = false;
+        persist(`Tâche ${number} : saisie sauvegardée automatiquement.`);
+      });
+      buttons.save.addEventListener('click', () => {
+        records[index] = { values: readTask(index), editing: false };
+        renderTask(index);
+        persist(`Tâche ${number} enregistrée. Utilisez « Modifier » pour reprendre la saisie.`);
+      });
+      buttons.edit.addEventListener('click', () => {
+        if (!records[index]) return;
+        records[index].editing = true;
+        renderTask(index);
+        persist(`Tâche ${number} ouverte en modification. Les changements seront sauvegardés automatiquement.`);
+        form.elements.namedItem(`task-${number}-taskId`).focus();
+      });
+      buttons.remove.addEventListener('click', () => {
+        if (!records[index] || !window.confirm(`Supprimer les réponses de la tâche ${number} ?`)) return;
+        records[index] = null;
+        renderTask(index);
+        persist(`Réponses de la tâche ${number} supprimées.`);
+        form.elements.namedItem(`task-${number}-taskId`).focus();
+      });
+    }
+
+    // Les panneaux restent dans le DOM : naviguer ne recrée ni ne vide les champs.
+    const taskLinks = Array.from(document.querySelectorAll('nav a'));
+    function showTask() {
+      const activeId = /^#task-[1-4]$/.test(window.location.hash)
+        ? window.location.hash.slice(1) : 'task-1';
+      for (const section of form.children) {
+        section.hidden = section.id !== activeId;
+      }
+      for (const link of taskLinks) {
+        if (link.getAttribute('href') === `#${activeId}`) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      }
+    }
+    window.addEventListener('hashchange', showTask);
+    showTask();
+
+    form.addEventListener('submit', event => event.preventDefault());
+    document.querySelector('#export').addEventListener('click', () => {
+      const tasks = Array.from({ length: 4 }, (_, index) => readTask(index));
+      const data = { exercise: "Artificial Inquiries — What's on the Line?", tasks };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'artificial-inquiries-6c.json';
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      notify('Export préparé. Conservez le fichier téléchargé pour retrouver vos réponses.');
+    });
+  </script>
+</body>
+</html>
