@@ -421,6 +421,97 @@
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       notify('Export préparé. Conservez le fichier téléchargé pour retrouver vos réponses.');
     });
+    // Importation des données depuis Omeka S
+const omekaURL =
+  "https://caring-forestry-mrna-dense.trycloudflare.com/api/items";
+
+const importBtn = document.createElement("button");
+importBtn.type = "button";
+importBtn.textContent = "Charger depuis Omeka S";
+importBtn.className = "secondary";
+
+document.querySelector("#export").before(importBtn);
+
+const omekaFields = {
+  taskId: "taskId",
+  taskFit: "taskFit",
+  professionalRelevance: "professionalRelevance",
+  personalOutcome: "personalOutcome",
+  expectedPerformance: "expectedPerformance",
+  confidence: "confidence",
+  goodEnough: "goodEnough",
+  failure: "failure",
+  success: "success"
+};
+
+importBtn.addEventListener("click", async () => {
+  if (
+    records.some(r => r !== null) &&
+    !confirm("Remplacer les réponses locales par Omeka S ?")
+  ) return;
+
+  importBtn.disabled = true;
+  notify("Chargement depuis Omeka S...");
+
+  try {
+    const response = await fetch(omekaURL);
+
+    if (!response.ok) {
+      throw new Error("HTTP " + response.status);
+    }
+
+    const items = await response.json();
+    const byId = new Map(
+      items.map(item => [Number(item["o:id"]), item])
+    );
+
+    const imported = [];
+
+    for (let i = 0; i < 4; i++) {
+      const base = 2 + i * 3;
+      const sources = [
+        byId.get(base),
+        byId.get(base + 1),
+        byId.get(base + 2)
+      ];
+
+      if (sources.some(item => !item)) {
+        throw new Error("Ressources manquantes : tâche " + (i + 1));
+      }
+
+      const values = {};
+
+      for (const key of keys) {
+        const property = "artinq:" + omekaFields[key];
+
+        const found = sources
+          .flatMap(item => item[property] || [])
+          .find(entry => entry["@value"] !== undefined);
+
+        values[key] = found
+          ? String(found["@value"])
+          : "";
+      }
+
+      imported.push({
+        editing: false,
+        values
+      });
+    }
+
+    records = imported;
+
+    for (let i = 0; i < 4; i++) {
+      renderTask(i);
+    }
+
+    persist("4 tâches chargées depuis Omeka S !");
+  } catch (error) {
+    notify("Erreur Omeka S : " + error.message, "error");
+  } finally {
+    importBtn.disabled = false;
+  }
+});
   </script>
 </body>
 </html>
