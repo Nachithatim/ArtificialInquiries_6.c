@@ -1,0 +1,200 @@
+{
+  "version": 1,
+  "mode": "static-public-export",
+  "source": "https://humanum-p8.fr/omk_artificialinquiries/api",
+  "exportedAt": "2026-11-02T23:32:56.821Z",
+  "items": [
+    {
+      "o:id": 53,
+      "dcterms:identifier": [
+        {
+          "@value": "6.c-T1"
+        }
+      ],
+      "artinq:adequationTache": [
+        {
+          "@value": "L'IA est adaptée à cette tâche car elle peut aider à nettoyer les données, proposer du code Python et identifier certaines erreurs. Les résultats doivent être vérifiés par l'utilisateur."
+        }
+      ],
+      "artinq:pertinenceProfessionnelle": [
+        {
+          "@value": "Cette tâche est utile dans les métiers de la Data et de l'informatique."
+        }
+      ],
+      "artinq:consequencePersonnelle": [
+        {
+          "@value": "Améliorer mes compétences en analyse de données et gagner du temps."
+        }
+      ],
+      "artinq:performanceAttendue": [
+        {
+          "@value": "L'IA doit proposer un code Python fonctionnel, aider à nettoyer les données et expliquer les résultats."
+        }
+      ],
+      "artinq:confianceComplete": [
+        {
+          "@value": "Élevé pour les tâches simples, moyen pour les analyses complexes. Les résultats doivent être vérifiés."
+        }
+      ],
+      "artinq:critereAcceptable": [
+        {
+          "@value": "Le code Python fonctionne, les données sont correctement nettoyées et les résultats sont compréhensibles."
+        }
+      ],
+      "artinq:critereEchec": [
+        {
+          "@value": "Le code contient des erreurs, les données sont mal traitées ou les résultats sont incorrects."
+        }
+      ],
+      "artinq:critereReussite": [
+        {
+          "@value": "L'analyse est correcte, les résultats sont vérifiés et le travail permet de gagner du temps."
+        }
+      ]
+    },
+    {
+      "o:id": 55,
+      "dcterms:identifier": [
+        {
+          "@value": "6.c-T2"
+        }
+      ],
+      "artinq:adequationTache": [
+        {
+          "@value": "L'IA peut aider à proposer des mesures DAX, choisir des visualisations et expliquer les indicateurs."
+        }
+      ],
+      "artinq:pertinenceProfessionnelle": [
+        {
+          "@value": "Cette tâche est importante dans les métiers de la Business Intelligence et de la Data."
+        }
+      ],
+      "artinq:consequencePersonnelle": [
+        {
+          "@value": "Améliorer mes compétences en Power BI et apprendre à construire des tableaux de bord efficaces."
+        }
+      ],
+      "artinq:performanceAttendue": [
+        {
+          "@value": "L'IA doit proposer des mesures DAX correctes, suggérer des visualisations adaptées et aider à expliquer les indicateurs du tableau de bord."
+        }
+      ],
+      "artinq:confianceComplete": [
+        {
+          "@value": "Élevé pour les formules DAX simples et les suggestions de graphiques, moyen pour les calculs complexes. Une vérification dans Power BI reste nécessaire."
+        }
+      ],
+      "artinq:critereAcceptable": [
+        {
+          "@value": "Le tableau de bord affiche des données correctes, les graphiques sont lisibles et les mesures DAX fonctionnent."
+        }
+      ],
+      "artinq:critereEchec": [
+        {
+          "@value": "Les mesures DAX sont incorrectes, les graphiques sont inadaptés ou les résultats sont trompeurs."
+        }
+      ],
+      "artinq:critereReussite": [
+        {
+          "@value": "Le tableau de bord est interactif, les indicateurs sont fiables et les visualisations facilitent la prise de décision."
+        }
+      ]
+    },
+    {
+      "o:id": 56,
+      "dcterms:identifier": [
+        {
+          "@value": "6.c-T3"
+        }
+      ],
+      "artinq:adequationTache": [
+        {
+          "@value": "L'IA peut aider à générer des requêtes SQL, expliquer les jointures et identifier les erreurs. Les requêtes doivent être testées et vérifiées."
+        }
+      ],
+      "artinq:pertinenceProfessionnelle": [
+        {
+          "@value": "Cette tâche est importante dans les métiers de la Data, de la Business Intelligence et du développement informatique."
+        }
+      ],
+      "artinq:consequencePersonnelle": [
+        {
+          "@value": "Améliorer mes compétences en SQL et apprendre à écrire des requêtes plus efficaces."
+        }
+      ],
+      "artinq:performanceAttendue": [
+        {
+          "@value": "L'IA doit proposer des requêtes SQL correctes, expliquer les jointures et aider à optimiser les requêtes."
+        }
+      ],
+      "artinq:confianceComplete": [
+        {
+          "@value": "Élevé pour les requêtes simples, moyen pour les requêtes complexes. Les résultats doivent être vérifiés dans une base de données."
+        }
+      ],
+      "artinq:critereAcceptable": [
+        {
+          "@value": "Les requêtes SQL fonctionnent, les résultats sont corrects et les jointures sont adaptées."
+        }
+      ],
+      "artinq:critereEchec": [
+        {
+          "@value": "Les requêtes contiennent des erreurs, produisent des résultats incorrects ou sont inefficaces."
+        }
+      ],
+      "artinq:critereReussite": [
+        {
+          "@value": "Les requêtes sont correctes, optimisées et vérifiées sur une base de données. L'analyse permet de gagner du temps."
+        }
+      ]
+    },
+    {
+      "o:id": 57,
+      "dcterms:identifier": [
+        {
+          "@value": "6.c-T4"
+        }
+      ],
+      "artinq:adequationTache": [
+        {
+          "@value": "L'IA peut aider à écrire des scripts Python, automatiser le nettoyage des données et détecter certaines erreurs. Les scripts doivent être testés."
+        }
+      ],
+      "artinq:pertinenceProfessionnelle": [
+        {
+          "@value": "Cette tâche est importante dans les métiers de la Data Engineering et de la Business Intelligence."
+        }
+      ],
+      "artinq:consequencePersonnelle": [
+        {
+          "@value": "Améliorer mes compétences en automatisation ETL et apprendre à construire des pipelines de données fiables."
+        }
+      ],
+      "artinq:performanceAttendue": [
+        {
+          "@value": "L'IA doit proposer des scripts Python fonctionnels pour extraire, transformer et charger les données, tout en aidant à détecter les erreurs."
+        }
+      ],
+      "artinq:confianceComplete": [
+        {
+          "@value": "Élevé pour les transformations simples, moyen pour les pipelines complexes. Les scripts et les données doivent être testés et vérifiés."
+        }
+      ],
+      "artinq:critereAcceptable": [
+        {
+          "@value": "Les scripts Python fonctionnent, les données sont correctement transformées et chargées, et les erreurs principales sont détectées."
+        }
+      ],
+      "artinq:critereEchec": [
+        {
+          "@value": "Les scripts contiennent des erreurs, les données sont perdues ou mal transformées, ou le chargement échoue."
+        }
+      ],
+      "artinq:critereReussite": [
+        {
+          "@value": "Le pipeline ETL fonctionne de manière fiable, les résultats sont vérifiés et l'automatisation permet de gagner du temps."
+        }
+      ]
+    }
+  ]
+}
