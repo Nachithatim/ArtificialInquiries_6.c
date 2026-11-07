@@ -19,9 +19,9 @@
     form.style.display = data.authenticated ? 'none' : 'flex';
     logout.hidden = !data.authenticated;
     status.textContent = data.authenticated
-      ? `Compte PHP local : ${data.user}. Identité Omeka non vérifiée ; simulation uniquement.`
+      ? `Compte PHP local : ${data.user}. Identité Omeka non vérifiée par cette connexion. Les opérations Omeka utilisent les droits du backend.`
       : 'Aucun compte PHP local connecté. Cette connexion est distincte d’Omeka.';
-    window.dispatchEvent(new CustomEvent('artificial-auth-change'));
+    window.dispatchEvent(new CustomEvent('artificial-auth-change', { detail: { authenticated: !!data.authenticated, user: data.user || null } }));
   }
   async function request(path, body) {
     const response = await fetch(new URL(path, new URL(base, location.href)), {
@@ -68,5 +68,6 @@
     await request('logout.php', {});
     show(await request('session.php'));
   }));
+  window.addEventListener('artificial-session-expired', () => action(async () => show(await request('session.php'))));
   action(async () => show(await request('session.php')));
 })();

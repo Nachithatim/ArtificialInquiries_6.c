@@ -48,17 +48,18 @@
     }
     return decode(snapshot.items);
   }
+  async function readSnapshot(location, request = fetch) {
+    const target = new URL('data/omeka-public.json', location.href);
+    const response = await request(target, {
+      method: 'GET', credentials: 'omit', cache: 'no-store',
+      headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(15000)
+    });
+    if (!response.ok) throw new Error(`Instantané public HTTP ${response.status}.`);
+    const snapshot = await response.json();
+    return { records: decodeSnapshot(snapshot), mode: 'static', exportedAt: snapshot.exportedAt };
+  }
   async function read(configuredBase, location, request = fetch) {
-    if (isStatic(configuredBase, location)) {
-      const target = new URL('data/omeka-public.json', location.href);
-      const response = await request(target, {
-        method: 'GET', credentials: 'omit', cache: 'no-store',
-        headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(15000)
-      });
-      if (!response.ok) throw new Error(`Instantané public HTTP ${response.status}.`);
-      const snapshot = await response.json();
-      return { records: decodeSnapshot(snapshot), mode: 'static', exportedAt: snapshot.exportedAt };
-    }
+    if (isStatic(configuredBase, location)) return readSnapshot(location, request);
     const local = ['localhost', '127.0.0.1'].includes(location.hostname);
     const base = configuredBase || (local ? '/artificial-auth/' : '');
     const target = new URL(base, location.href);
@@ -76,7 +77,7 @@
   async function load(configuredBase, location, request = fetch) {
     return (await read(configuredBase, location, request)).records;
   }
-  const api = Object.freeze({ ids, fields, decode, decodeSnapshot, isStatic, read, load });
+  const api = Object.freeze({ ids, fields, decode, decodeSnapshot, isStatic, readSnapshot, read, load });
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.ArtificialOmeka = api;
 })(globalThis);

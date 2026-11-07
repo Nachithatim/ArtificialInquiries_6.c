@@ -183,8 +183,8 @@
       </div>
       <div id="status" role="status" aria-live="polite" aria-atomic="true"></div>
       <details id="remote-workspace">
-        <summary>Connexion et opérations Omeka — préparation en simulation</summary>
-        <details id="auth-panel">
+        <summary>Connexion et réponses sur mon Omeka S</summary>
+        <details id="auth-panel" open>
           <summary>Compte PHP local — distinct du compte Omeka</summary>
           <p id="auth-status" role="status" aria-live="polite">Connexion locale non vérifiée.</p>
           <form id="auth-form" class="fields" method="post">
@@ -195,21 +195,20 @@
           <button id="auth-logout" type="button" hidden>Déconnexion locale</button>
           <p>Ne pas saisir votre mot de passe Omeka ici. Les réponses locales sont indépendantes du compte.</p>
         </details>
-        <p><a href="https://humanum-p8.fr/omk_artificialinquiries/login" target="_blank" rel="noopener noreferrer">Ouvrir la connexion Omeka</a> : cette connexion séparée n’authentifie pas encore cette IHM.</p>
-        <section id="remote-crud" aria-label="Simulation du CRUD Omeka">
-          <p>Les boutons locaux des tâches restent locaux. Ces opérations distinctes préparent uniquement une simulation pour une nouvelle ressource temporaire. Les sources 53, 55, 56, 57 et l’ancien Item 111 sont interdits.</p>
-          <label>ID de la ressource temporaire autorisée <input id="remote-item-id" type="text" inputmode="numeric" autocomplete="off"></label>
+        <section id="personal-crud" aria-label="Réponses sur Omeka S personnel">
+          <p>Connectez-vous avec le compte PHP fourni pour l’exercice. Ce compte est distinct du compte Omeka. Les opérations ci-dessous enregistrent réellement vos réponses sur l’Omeka personnel de Nachit.</p>
+          <p>La tâche affichée dans la grille est utilisée pour créer ou modifier une réponse. Les boutons Enregistrer, Modifier et Supprimer de la grille restent locaux.</p>
+          <label for="personal-item">Réponse enregistrée sur Omeka</label>
+          <select id="personal-item" disabled><option value="">Choisir une réponse</option></select>
           <div class="actions">
-            <button id="remote-identity" type="button" class="secondary">Vérifier le profil API configuré</button>
-            <button id="remote-read" type="button" class="secondary">Lire la ressource temporaire</button>
-            <button data-remote-action="create" type="button" class="secondary">Préparer Create (simulation)</button>
-            <button data-remote-action="update" type="button" class="secondary">Préparer Update (simulation)</button>
-            <button data-remote-action="delete" type="button" class="secondary">Préparer Delete (simulation)</button>
+            <button id="personal-refresh" type="button" class="secondary" disabled>Actualiser la liste</button>
+            <button id="personal-create" type="button" disabled>Créer dans Omeka</button>
+            <button id="personal-read" type="button" class="secondary" disabled>Consulter</button>
+            <button id="personal-update" type="button" class="secondary" disabled>Modifier dans Omeka</button>
+            <button id="personal-delete" type="button" class="danger" disabled>Supprimer dans Omeka</button>
           </div>
-          <p id="remote-status" role="status" aria-live="polite"></p>
-          <pre id="remote-preview" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:20rem;overflow:auto"></pre>
-          <label>Phrase exacte affichée dans l’aperçu <input id="remote-confirmation" type="text" autocomplete="off"></label>
-          <button id="remote-confirm" type="button" disabled>Confirmer la simulation</button>
+          <p id="personal-status" role="status" aria-live="polite">Connexion PHP requise pour accéder aux réponses Omeka.</p>
+          <pre id="personal-preview" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:20rem;overflow:auto" hidden></pre>
         </section>
       </details>
       <noscript><p>Activez JavaScript pour afficher la grille et retrouver vos réponses.</p></noscript>
@@ -420,6 +419,15 @@
       });
     }
 
+    window.addEventListener('artificial-personal-read', event => {
+      const { index, values } = event.detail || {};
+      if (!Number.isInteger(index) || index < 0 || index > 3 || !values ||
+          !keys.every(key => typeof values[key] === 'string')) return;
+      records[index] = { editing: true, values: Object.fromEntries(keys.map(key => [key, values[key]])) };
+      renderTask(index);
+      persist(`Réponse Omeka chargée dans la tâche ${index + 1}. Modifiez la grille puis utilisez « Modifier dans Omeka » pour enregistrer sur le serveur.`);
+    });
+
     // Les panneaux restent dans le DOM : naviguer ne recrée ni ne vide les champs.
     const taskLinks = Array.from(document.querySelectorAll('nav a'));
     function showTask() {
@@ -457,7 +465,9 @@
     // Remote reads only; save, edit, delete and export remain local.
     const importBtn = document.createElement('button');
     importBtn.type = 'button';
-    const staticRead = ArtificialOmeka.isStatic(window.ARTIFICIAL_AUTH_BASE, location);
+    // Original university tasks come only from the existing public snapshot.
+    // Real CRUD uses the separate personal endpoint; no university request is needed.
+    const staticRead = true;
     importBtn.textContent = staticRead ? 'Charger l’instantané Omeka S' : 'Charger depuis Omeka S';
     importBtn.title = staticRead
       ? 'Export JSON public daté ; aucune lecture en direct du serveur Omeka S.'
@@ -471,7 +481,7 @@
       importBtn.disabled = true;
       notify(staticRead ? 'Chargement de l’instantané public Omeka S...' : 'Chargement depuis Omeka S...');
       try {
-        const result = await ArtificialOmeka.read(window.ARTIFICIAL_AUTH_BASE, location);
+        const result = await ArtificialOmeka.readSnapshot(location);
         // Confirm after fetching, including edits made during the request.
         if (records.some(record => record !== null) &&
             !window.confirm((result.mode === 'static'
@@ -496,7 +506,7 @@
     });
   </script>
   <script src="auth.js"></script>
-  <script src="omeka-crud.js"></script>
-  <script src="remote-ui.js"></script>
+  <script src="personal-crud.js"></script>
+  <script src="personal-ui.js"></script>
 </body>
 </html>
