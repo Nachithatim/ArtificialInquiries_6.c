@@ -141,6 +141,7 @@
       textarea { min-height: 130px; }
     }
   </style>
+  <link rel="stylesheet" href="auth-ui.css">
 </head>
 <body>
   <!-- Symboles partagés : aucune bibliothèque d’icônes ni ressource externe. -->
@@ -182,35 +183,41 @@
         <p class="intro">Pour chacune des quatre tâches professionnelles, précisez les enjeux, les attentes et les critères d’évaluation avant de tester le modèle de langage.</p>
       </div>
       <div id="status" role="status" aria-live="polite" aria-atomic="true"></div>
-      <details id="remote-workspace">
-        <summary>Connexion et réponses sur mon Omeka S</summary>
-        <details id="auth-panel" open>
-          <summary>Compte PHP local — distinct du compte Omeka</summary>
-          <p id="auth-status" role="status" aria-live="polite">Connexion locale non vérifiée.</p>
-          <form id="auth-form" class="fields" method="post">
-            <label>Identifiant PHP local <input name="username" autocomplete="username" maxlength="64" required></label>
-            <label>Mot de passe PHP local <input name="password" type="password" autocomplete="current-password" maxlength="72" required></label>
-            <button type="submit">Connexion locale</button>
-          </form>
-          <button id="auth-logout" type="button" hidden>Déconnexion locale</button>
-          <p>Ne pas saisir votre mot de passe Omeka ici. Les réponses locales sont indépendantes du compte.</p>
-        </details>
-        <section id="personal-crud" aria-label="Réponses sur Omeka S personnel">
-          <p>Connectez-vous avec le compte PHP fourni pour l’exercice. Ce compte est distinct du compte Omeka. Les opérations ci-dessous enregistrent réellement vos réponses sur l’Omeka personnel de Nachit.</p>
-          <p>La tâche affichée dans la grille est utilisée pour créer ou modifier une réponse. Les boutons Enregistrer, Modifier et Supprimer de la grille restent locaux.</p>
-          <label for="personal-item">Réponse enregistrée sur Omeka</label>
-          <select id="personal-item" disabled><option value="">Choisir une réponse</option></select>
-          <div class="actions">
-            <button id="personal-refresh" type="button" class="secondary" disabled>Actualiser la liste</button>
-            <button id="personal-create" type="button" disabled>Créer dans Omeka</button>
-            <button id="personal-read" type="button" class="secondary" disabled>Consulter</button>
-            <button id="personal-update" type="button" class="secondary" disabled>Modifier dans Omeka</button>
-            <button id="personal-delete" type="button" class="danger" disabled>Supprimer dans Omeka</button>
+      <div id="remote-workspace">
+        <section id="auth-panel" class="auth-card" aria-labelledby="auth-title">
+          <div id="auth-welcome">
+            <span class="auth-emblem" aria-hidden="true">AI</span>
+            <p class="eyebrow">Votre espace universitaire</p>
+            <h2 id="auth-title">Connexion à Artificial Inquiries</h2>
+            <p class="auth-description">Connectez-vous pour accéder à votre espace et gérer vos réponses.</p>
           </div>
-          <p id="personal-status" role="status" aria-live="polite">Connexion PHP requise pour accéder aux réponses Omeka.</p>
-          <pre id="personal-preview" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:20rem;overflow:auto" hidden></pre>
+          <div id="auth-account" hidden><p class="eyebrow">Mon espace</p><h2>Bienvenue, <span id="auth-user"></span></h2><p class="auth-description">Retrouvez et gérez vos réponses enregistrées.</p></div>
+          <p id="auth-status" role="status" aria-live="polite" aria-atomic="true">Vérification de votre connexion…</p>
+          <form id="auth-form" method="post">
+            <div class="field"><label for="auth-username">Identifiant</label><input id="auth-username" name="username" autocomplete="username" maxlength="64" required></div>
+            <div class="field"><label for="auth-password">Mot de passe</label><div class="password-field"><input id="auth-password" name="password" type="password" autocomplete="current-password" maxlength="72" required><button id="auth-toggle" class="secondary" type="button" aria-label="Afficher le mot de passe" aria-pressed="false"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+            <button id="auth-submit" type="submit"><span class="spinner" aria-hidden="true"></span><span id="auth-submit-label">Se connecter</span></button>
+          </form>
+          <button id="auth-logout" class="secondary" type="button" hidden>Se déconnecter</button>
+          <a id="auth-public" href="#task-1">Explorer les quatre tâches en accès libre <span aria-hidden="true">→</span></a>
         </section>
-      </details>
+        <section id="personal-crud" class="workspace-card" aria-labelledby="personal-title" hidden>
+          <p class="eyebrow">Mes réponses · Omeka S</p><h2 id="personal-title">Gestion de mes réponses</h2>
+          <p class="auth-description">Ces actions enregistrent vos réponses dans votre espace Omeka S personnel. Pour créer une réponse, remplissez les neuf champs de la tâche affichée.</p>
+          <label for="personal-item">Mes réponses enregistrées</label>
+          <div class="response-picker"><select id="personal-item" disabled><option value="">Choisir une réponse</option></select><button id="personal-refresh" type="button" class="secondary" disabled>Actualiser la liste</button></div>
+          <div class="actions">
+            <button id="personal-create" type="button" class="" disabled><svg class="icon" aria-hidden="true"><use href="#icon-save"/></svg>Créer</button>
+            <button id="personal-read" type="button" class="secondary" disabled><svg class="icon" aria-hidden="true"><use href="#icon-book"/></svg>Consulter</button>
+            <button id="personal-update" type="button" class="secondary" disabled><svg class="icon" aria-hidden="true"><use href="#icon-edit"/></svg>Modifier</button>
+            <button id="personal-delete" type="button" class="danger" disabled><svg class="icon" aria-hidden="true"><use href="#icon-trash"/></svg>Supprimer</button>
+          </div>
+          <p id="personal-status" class="notice" role="status" aria-live="polite" aria-atomic="true"></p>
+          <div id="personal-preview" class="response-preview" hidden></div>
+        </section>
+      </div>
+      <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title">Confirmer l’action</h2><p id="confirm-message"></p><div class="actions"><button value="cancel" class="secondary" autofocus>Annuler</button><button value="confirm">Confirmer</button></div></form></dialog>
+      <p class="draft-note"><strong>Vos brouillons sur cet appareil</strong> · La grille ci-dessous est sauvegardée dans votre navigateur. Utilisez « Gestion de mes réponses » pour enregistrer dans Omeka S.</p>
       <noscript><p>Activez JavaScript pour afficher la grille et retrouver vos réponses.</p></noscript>
       <form id="tasks" aria-label="Grille d’analyse des quatre tâches"></form>
       <footer><span>Artificial Inquiries — Exercice 6.c</span><span>Réflexion préalable au test</span></footer>
@@ -309,6 +316,7 @@
       views[index].save.disabled = reading;
       views[index].edit.disabled = !reading;
       views[index].remove.disabled = record === null;
+      Object.values(views[index]).forEach(button => button.hidden = button.disabled);
     }
 
     // Une structure commune évite de dupliquer le balisage des quatre tâches.
@@ -374,7 +382,7 @@
       const actions = document.createElement('div');
       actions.className = 'actions';
       const buttons = {};
-      for (const [action, title] of [['save', 'Enregistrer'], ['edit', 'Modifier'], ['remove', 'Supprimer']]) {
+      for (const [action, title] of [['save', 'Enregistrer le brouillon'], ['edit', 'Modifier le brouillon'], ['remove', 'Effacer le brouillon']]) {
         const button = document.createElement('button');
         button.type = 'button';
         const buttonText = document.createElement('span');
@@ -396,6 +404,7 @@
         if (records[index] && !records[index].editing) return;
         records[index] = { values: readTask(index), editing: true };
         buttons.remove.disabled = false;
+        buttons.remove.hidden = false;
         persist(`Tâche ${number} : saisie sauvegardée automatiquement.`);
       });
       buttons.save.addEventListener('click', () => {
@@ -410,8 +419,8 @@
         persist(`Tâche ${number} ouverte en modification. Les changements seront sauvegardés automatiquement.`);
         form.elements.namedItem(`task-${number}-taskId`).focus();
       });
-      buttons.remove.addEventListener('click', () => {
-        if (!records[index] || !window.confirm(`Supprimer les réponses de la tâche ${number} ?`)) return;
+      buttons.remove.addEventListener('click', async () => {
+        if (!records[index] || !await window.ArtificialUI.confirm(`Effacer le brouillon de la tâche ${number} sur cet appareil ?`)) return;
         records[index] = null;
         renderTask(index);
         persist(`Réponses de la tâche ${number} supprimées.`);
@@ -484,7 +493,7 @@
         const result = await ArtificialOmeka.readSnapshot(location);
         // Confirm after fetching, including edits made during the request.
         if (records.some(record => record !== null) &&
-            !window.confirm((result.mode === 'static'
+            !await window.ArtificialUI.confirm((result.mode === 'static'
               ? 'Remplacer les réponses locales par l’instantané public du ' + new Date(result.exportedAt).toLocaleString('fr-FR') + ' ?'
               : 'Remplacer les réponses locales par la lecture dynamique Omeka S ?') +
               ' Les boutons Enregistrer, Modifier et Supprimer restent locaux.')) {
@@ -505,6 +514,7 @@
       }
     });
   </script>
+  <script src="interface-ui.js"></script>
   <script src="auth.js"></script>
   <script src="personal-crud.js"></script>
   <script src="personal-ui.js"></script>
